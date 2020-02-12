@@ -131,7 +131,7 @@ void naiveTransformLayer(const Layer<VoxelType>& layer_in,
           output_block->getVoxelByVoxelIndex(getLocalFromGlobalVoxelIndex(
               global_output_voxel_idx, layer_out->voxels_per_side()));
 
-      if (interpolator.getVoxel(voxel_center, &output_voxel, false)) {
+      if (interpolator.getVoxel(input_block.computeCoordinatesFromLinearIndex(input_linear_voxel_idx), &output_voxel, false)) {
         output_block->has_data() = true;
       }
     }
