@@ -7,14 +7,13 @@
  
   <node name="player" pkg="rosbag" type="play" output="screen" args="-r 1.0 --clock $(arg bag_file)" if="$(arg play_bag)"> </node>
 
-  <node name="voxblox_node" pkg="voxblox_ros" type="tsdf_server" output="screen" args="-alsologtostderr" clear_params="true">
+  <node name="voxblox_node" pkg="voxblox_ros" type="esdf_server" output="screen" args="-alsologtostderr" clear_params="true">
     <remap from="pointcloud" to="/camera/depth_registered/points"/>
     <param name="tsdf_voxel_size" value="$(arg voxel_size)" />
     <param name="tsdf_voxels_per_side" value="16" />
     <param name="voxel_carving_enabled" value="true" />
     <param name="color_mode" value="color" />
     <param name="use_tf_transforms" value="false" />
-    <param name="update_mesh_every_n_sec" value="1.0" />
     <param name="min_time_between_msgs_sec" value="0.0" />
     <param name="method" value="fast" />
     <param name="use_const_weight" value="false" />
@@ -23,8 +22,15 @@
     <remap from="transform" to="/kinect/vrpn_client/estimated_transform" />
     <rosparam file="$(find voxblox_ros)/cfg/cow_and_lady.yaml"/>
     <param name="mesh_filename" value="$(find voxblox_ros)/mesh_results/$(anon cow).ply" />
+    
     <param name="publish_tsdf_info" value="true" />
+    <!-- <param name="publish_tsdf_map" value="false" />
+    <param name="publish_esdf_map" value="false" /> -->
     <param name="publish_pointclouds" value="true" />
+    <!-- <param name="update_mesh_every_n_sec" value="1.0" /> -->
+    <!-- <param name="update_esdf_every_n_sec" value="1.0" /> -->
+    <param name="esdf_max_distance_m" value="0.5" />
+    <!-- <param name="esdf_default_distance_m" value="0.5" /> -->
   </node>
 
 </launch>
