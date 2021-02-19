@@ -37,6 +37,7 @@ class EsdfServer : public TsdfServer {
   virtual void publishMap(bool reset_remote_map = false);
   virtual bool saveMap(const std::string& file_path);
   virtual bool loadMap(const std::string& file_path);
+  void saveSDF(const std::string file_path, const Eigen::Vector3d origin, const Eigen::Vector3d grid_dims);
 
   void updateEsdfEvent(const ros::TimerEvent& event);
 

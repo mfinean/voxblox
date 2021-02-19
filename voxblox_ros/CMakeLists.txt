@@ -37,6 +37,11 @@ cs_add_executable(esdf_server
 )
 target_link_libraries(esdf_server ${PROJECT_NAME})
 
+cs_add_executable(esdf_server_save_node
+  src/esdf_server_save_node.cc
+)
+target_link_libraries(esdf_server_save_node ${PROJECT_NAME})
+
 cs_add_executable(intensity_server
   src/intensity_server_node.cc
 )

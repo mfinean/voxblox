@@ -189,6 +189,42 @@ bool EsdfServer::loadMap(const std::string& file_path) {
              kMultipleLayerSupport, esdf_map_->getEsdfLayerPtr());
 }
 
+void EsdfServer::saveSDF(const std::string file_path, const Eigen::Vector3d origin, const Eigen::Vector3d grid_dims){
+  
+  double distance = 0.0;
+  float voxel_side_length = esdf_map_->getEsdfLayerPtr()->voxel_size();
+
+  std::ofstream savefile;
+  savefile.open(file_path, std::fstream::out);
+
+  for (size_t z = 0; z < grid_dims(2); z++)
+  {
+    for (size_t y = 0; y < grid_dims(1); y++)
+    {
+      for (size_t x = 0; x < grid_dims(0); x++)
+      {
+        Eigen::Vector3d position(x * voxel_side_length, y * voxel_side_length, z * voxel_side_length);
+        if(esdf_map_->getDistanceAtPosition(position + origin, &distance)){
+          savefile << distance;  
+        }
+        else{
+          savefile << 10000;  
+        }
+
+        if( (x != (grid_dims(0) - 1)) || (y != (grid_dims(1) - 1))){
+          savefile << ',';     
+        }
+      }
+    }
+    savefile << '\n';
+  }
+  
+  savefile.close();
+  std::cout << "File saved" << std::endl;
+
+
+}
+
 void EsdfServer::updateEsdf() {
   if (tsdf_map_->getTsdfLayer().getNumberOfAllocatedBlocks() > 0) {
     const bool clear_updated_flag_esdf = true;
